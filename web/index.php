@@ -33,7 +33,27 @@ $app->register(new \Silex\Provider\DoctrineServiceProvider(), [
    ] 
 ]);
 
-$app->register(new \Silex\Provider\SecurityServiceProvider());
+$app->register(new \Silex\Provider\SecurityServiceProvider(), [
+    'security.firewalls' => [
+        'users' => [
+            'cashlog' => ['ROLE_SUPERUSER', 'password']
+        ],
+        'pattern' => '^/dashboard',
+        'form' => [
+            'login_path' => '/signin',
+            'check_path' => '/signin'
+        ],
+        'logout' => [
+            'logout_path' => '/signout',
+            'invalidate_session' => true
+        ]
+    ],
+    'security.default_encoder' => function () {
+        return new \Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder();
+    }
+]);
+
+$app->register(new \Silex\Provider\SessionServiceProvider());
 
 $app['SecurityController'] = function () use ($app) {
     return new SecurityController($app);
