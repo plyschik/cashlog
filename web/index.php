@@ -14,12 +14,14 @@ $app = new CashLogApplication([
 ]);
 
 $app->register(new \Silex\Provider\ServiceControllerServiceProvider());
+
 $app->register(new \Silex\Provider\TwigServiceProvider(), [
     'twig.path' => __DIR__ . '/../views',
     'twig.options' => [
         'cache' => __DIR__ . '/../var/cache'
     ]
 ]);
+
 $app->register(new \Silex\Provider\DoctrineServiceProvider(), [
    'db.options' => [
        'driver'     => getenv('DATABASE_DRIVER'),
@@ -30,6 +32,8 @@ $app->register(new \Silex\Provider\DoctrineServiceProvider(), [
        'charset'    => getenv('DATABASE_CHARSET')
    ] 
 ]);
+
+$app->register(new \Silex\Provider\SecurityServiceProvider());
 
 $app['SecurityController'] = function () use ($app) {
     return new SecurityController($app);
