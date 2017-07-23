@@ -1,1 +1,15 @@
-Signin form.
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>CashLog</title>
+    </head>
+    <body>
+        <form action="{{ path('signin') }}" method="post">
+            {{ error }}
+            <input type="text" name="_username" value="{{ last_username }}" />
+            <input type="password" name="_password" value="" />
+            <input type="submit" value="Zaloguj się" />
+        </form>
+    </body>
+</html>

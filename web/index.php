@@ -33,27 +33,41 @@ $app->register(new \Silex\Provider\DoctrineServiceProvider(), [
    ] 
 ]);
 
+$app->register(new \Silex\Provider\SessionServiceProvider(), [
+    'session.storage.save_path' => __DIR__ . '/../var/sessions'
+]);
+
 $app->register(new \Silex\Provider\SecurityServiceProvider(), [
     'security.firewalls' => [
-        'users' => [
-            'cashlog' => ['ROLE_SUPERUSER', 'password']
+        'signin' => [
+            'pattern' => '^/$',
+            'anonymous' => true
         ],
-        'pattern' => '^/dashboard',
-        'form' => [
-            'login_path' => '/signin',
-            'check_path' => '/signin'
-        ],
-        'logout' => [
-            'logout_path' => '/signout',
-            'invalidate_session' => true
+        'secured' => [
+            'pattern' => '^/.*$',
+            'anonymous' => true,
+            'form' => [
+                'login_path' => '/',
+                'check_path' => '/signin',
+                'default_target_path' => '/dashboard'
+            ],
+            'logout' => [
+                'logout_path' => '/signout',
+                'invalidate_session' => true
+            ],
+            'users' => [
+                'cashlog' => ['ROLE_SUPERUSER', 'password']
+            ]
         ]
     ],
-    'security.default_encoder' => function () {
+    'security.access_rules' => [
+        ['^/signin$', 'IS_AUTHENTICATED_ANONYMOUSLY'],
+        ['^/.+$', 'ROLE_SUPERUSER']
+    ],
+    'security.default_encoder' => function () use ($app) {
         return new \Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder();
     }
 ]);
-
-$app->register(new \Silex\Provider\SessionServiceProvider());
 
 $app['SecurityController'] = function () use ($app) {
     return new SecurityController($app);
@@ -64,7 +78,9 @@ $app['DashboardController'] = function () use ($app) {
 };
 
 $app->get('/', 'SecurityController:signinAction');
+
 $app->get('/signout', 'SecurityController:signoutAction');
+
 $app->get('/dashboard', 'DashboardController:indexAction');
 
 $app->run();
