@@ -1,0 +1,11 @@
+{
+    "require": {
+        "silex/silex": "^2.2",
+        "vlucas/phpdotenv": "^2.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CashLog\\": "src/"
+        }
+    }
+}
