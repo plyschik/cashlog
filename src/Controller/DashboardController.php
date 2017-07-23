@@ -8,6 +8,6 @@ class DashboardController extends BaseController
 {
     public function indexAction()
     {
-        return new Response('Dashboard index.');
+        return $this->app->render('dashboard/index.twig');
     }
 }

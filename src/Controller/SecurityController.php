@@ -8,7 +8,7 @@ class SecurityController extends BaseController
 {
     public function signinAction()
     {
-        return new Response('Signin form.');
+        return $this->app->render('security/signin.twig');
     }
 
     public function signoutAction()

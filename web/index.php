@@ -14,6 +14,12 @@ $app = new CashLogApplication([
 ]);
 
 $app->register(new \Silex\Provider\ServiceControllerServiceProvider());
+$app->register(new \Silex\Provider\TwigServiceProvider(), [
+    'twig.path' => __DIR__ . '/../views',
+    'twig.options' => [
+        'cache' => __DIR__ . '/../var/cache'
+    ]
+]);
 
 $app['SecurityController'] = function () use ($app) {
     return new SecurityController($app);
