@@ -55,17 +55,17 @@ $app->register(new \Silex\Provider\SecurityServiceProvider(), [
                 'logout_path' => '/signout',
                 'invalidate_session' => true
             ],
-            'users' => [
-                'cashlog' => ['ROLE_SUPERUSER', 'password']
-            ]
+            'users' => function () use ($app) {
+                return new \CashLog\Security\UserProvider($app['db']);
+            }
         ]
     ],
     'security.access_rules' => [
         ['^/signin$', 'IS_AUTHENTICATED_ANONYMOUSLY'],
-        ['^/.+$', 'ROLE_SUPERUSER']
+        ['^/.+$', 'ROLE_USER']
     ],
     'security.default_encoder' => function () use ($app) {
-        return new \Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder();
+        return $app['security.encoder.bcrypt'];
     }
 ]);
 
