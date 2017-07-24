@@ -14,12 +14,14 @@ $app = new CashLogApplication([
 ]);
 
 $app->register(new \Silex\Provider\ServiceControllerServiceProvider());
+
 $app->register(new \Silex\Provider\TwigServiceProvider(), [
     'twig.path' => __DIR__ . '/../views',
     'twig.options' => [
         'cache' => __DIR__ . '/../var/cache'
     ]
 ]);
+
 $app->register(new \Silex\Provider\DoctrineServiceProvider(), [
    'db.options' => [
        'driver'     => getenv('DATABASE_DRIVER'),
@@ -31,6 +33,42 @@ $app->register(new \Silex\Provider\DoctrineServiceProvider(), [
    ] 
 ]);
 
+$app->register(new \Silex\Provider\SessionServiceProvider(), [
+    'session.storage.save_path' => __DIR__ . '/../var/sessions'
+]);
+
+$app->register(new \Silex\Provider\SecurityServiceProvider(), [
+    'security.firewalls' => [
+        'signin' => [
+            'pattern' => '^/$',
+            'anonymous' => true
+        ],
+        'secured' => [
+            'pattern' => '^/.*$',
+            'anonymous' => true,
+            'form' => [
+                'login_path' => '/',
+                'check_path' => '/signin',
+                'default_target_path' => '/dashboard'
+            ],
+            'logout' => [
+                'logout_path' => '/signout',
+                'invalidate_session' => true
+            ],
+            'users' => function () use ($app) {
+                return new \CashLog\Security\UserProvider($app['db']);
+            }
+        ]
+    ],
+    'security.access_rules' => [
+        ['^/signin$', 'IS_AUTHENTICATED_ANONYMOUSLY'],
+        ['^/.+$', 'ROLE_USER']
+    ],
+    'security.default_encoder' => function () use ($app) {
+        return $app['security.encoder.bcrypt'];
+    }
+]);
+
 $app['SecurityController'] = function () use ($app) {
     return new SecurityController($app);
 };
@@ -40,7 +78,9 @@ $app['DashboardController'] = function () use ($app) {
 };
 
 $app->get('/', 'SecurityController:signinAction');
+
 $app->get('/signout', 'SecurityController:signoutAction');
+
 $app->get('/dashboard', 'DashboardController:indexAction');
 
 $app->run();
