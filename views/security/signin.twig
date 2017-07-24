@@ -1,15 +1,42 @@
-<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>CashLog</title>
-    </head>
-    <body>
-        <form action="{{ path('signin') }}" method="post">
-            {{ error }}
-            <input type="text" name="_username" value="{{ last_username }}" />
-            <input type="password" name="_password" value="" />
-            <input type="submit" value="Zaloguj się" />
-        </form>
-    </body>
-</html>
+{% extends 'layout.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body {
+            background-color: #E9E9E9;
+        }
+
+        body > .grid {
+            height: 100%;
+        }
+
+        .column {
+            max-width: 450px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="ui middle aligned center aligned grid">
+        <div class="column">
+            {% if error %}
+                <div class="ui negative message">
+                    {{ error }}
+                </div>
+            {% endif %}
+            <form class="ui large form" action="{{ path('signin') }}" method="post">
+                <div class="ui stacked segment">
+                    <div class="field">
+                        <input type="text" name="_username" value="{{ last_username }}" placeholder="Nazwa użytkownika..." />
+                    </div>
+                    <div class="field">
+                        <input type="password" name="_password" value="" placeholder="Hasło..." />
+                    </div>
+                    <input class="ui fluid button primary" type="submit" value="Zaloguj się" />
+                </div>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}
