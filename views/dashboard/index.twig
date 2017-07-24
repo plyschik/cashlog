@@ -1,1 +1,53 @@
-Dashboard index.
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <div class="ui menu inverted">
+        <div class="ui container">
+            <div class="header item">CashLog</div>
+            <a href="#" class="item">Link</a>
+            <a href="#" class="item">Link</a>
+            <a href="#" class="item">Link</a>
+            <div class="right menu">
+                <a href="#" class="item">Wyloguj się</a>
+            </div>
+        </div>
+    </div>
+    <div class="ui container">
+        <form class="ui form">
+            <div class="fields">
+                <div class="four wide field">
+                    <input type="text" name="" placeholder="Data...">
+                </div>
+                <div class="six wide field">
+                    <input type="text" name="" placeholder="Opis...">
+                </div>
+                <div class="four wide field">
+                    <input type="text" name="" placeholder="Zmiana salda o...">
+                </div>
+                <div class="two wide field">
+                    <input class="ui button fluid" type="submit" value="Zapisz">
+                </div>
+            </div>
+        </form>
+        <table class="ui striped table">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Komentarz</th>
+                    <th>Zmiana salda</th>
+                    <th>Bierzące saldo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                    <tr>
+                        <td>{{ log.datetime|date('d.m.Y H:i') }}</td>
+                        <td>{{ log.description }}</td>
+                        <td class="{{ log.type == 0 ? 'positive' : 'negative' }}">{{ log.type == 0 ? '+' : '-' }}{{ log.cash }} PLN</td>
+                        <td>{{ log.balance }} PLN</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
