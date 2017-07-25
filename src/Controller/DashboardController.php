@@ -3,7 +3,7 @@
 namespace CashLog\Controller;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -28,13 +28,15 @@ class DashboardController extends BaseController
                     ])
                 ]
             ])
-            ->add('cash', TextType::class, [
+            ->add('cash', MoneyType::class, [
                 'label' => false,
                 'constraints' => [
                     new Assert\NotBlank([
                         'message' => 'Kwota jest polem wymaganym.'
                     ])
-                ]
+                ],
+                'currency' => '',
+                'divisor' => 100
             ])
             ->getForm()
         ;

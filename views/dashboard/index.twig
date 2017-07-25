@@ -26,13 +26,13 @@
                 </div>
             {% endif %}
             <div class="fields">
-                <div class="four wide field">
+                <div class="four wide field {% if not form.datetime.vars.valid %}error{% endif %}">
                     {{ form_widget(form.datetime, {'attr': {'placeholder': 'Data...'}}) }}
                 </div>
-                <div class="six wide field">
+                <div class="six wide field {% if not form.description.vars.valid %}error{% endif %}">
                     {{ form_widget(form.description, {'attr': {'placeholder': 'Opis...'}}) }}
                 </div>
-                <div class="four wide field">
+                <div class="four wide field {% if not form.cash.vars.valid %}error{% endif %}">
                     {{ form_widget(form.cash, {'attr': {'placeholder': 'Kwota...'}}) }}
                 </div>
                 <div class="two wide field">
