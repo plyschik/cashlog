@@ -50,6 +50,7 @@
         <table class="ui striped table">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Data</th>
                     <th>Komentarz</th>
                     <th>Zmiana salda</th>
@@ -59,6 +60,7 @@
             <tbody>
                 {% for log in logs %}
                     <tr>
+                        <td>{{ log.id }}</td>
                         <td>{{ log.datetime|date('d.m.Y H:i') }}</td>
                         <td>{{ log.description }}</td>
                         <td class="{{ log.type == 0 ? 'positive' : 'negative' }}">{{ log.type == 0 ? '+' : '-' }}{{ log.cash }} PLN</td>
@@ -66,6 +68,41 @@
                     </tr>
                 {% endfor %}
             </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="5">
+                        <div class="ui right floated pagination menu">
+                            {% if pagination.availablePages <= 5 %}
+                                {% for i in 1..pagination.availablePages %}
+                                    <a href="?page={{ i }}" class="item{{ i == pagination.currentPage ? ' active' : '' }}">{{ i }}</a>
+                                {% endfor %}
+                            {% else %}
+                                {% if pagination.currentPage < 5 %}
+                                    {% for i in 1..5 %}
+                                        <a href="?page={{ i }}" class="item{{ i == pagination.currentPage ? ' active' : '' }}">{{ i }}</a>
+                                    {% endfor %}
+                                    <div class="disabled item">...</div>
+                                    <a href="?page={{ pagination.availablePages }}" class="item">{{ pagination.availablePages }}</a>
+                                {% elseif (pagination.availablePages - pagination.currentPage < 4) %}
+                                    <a href="?page=1" class="item">1</a>
+                                    <div class="disabled item">...</div>
+                                    {% for i in (pagination.availablePages - 4)..pagination.availablePages %}
+                                        <a href="?page={{ i }}" class="item{{ i == pagination.currentPage ? ' active' : '' }}">{{ i }}</a>
+                                    {% endfor %}
+                                {% else %}
+                                    <a href="?page=1" class="item">1</a>
+                                    <div class="disabled item">...</div>
+                                    {% for i in (pagination.currentPage - 2)..(pagination.currentPage + 2) %}
+                                        <a href="?page={{ i }}" class="item{{ i == pagination.currentPage ? ' active' : '' }}">{{ i }}</a>
+                                    {% endfor %}
+                                    <div class="disabled item">...</div>
+                                    <a href="?page={{ pagination.availablePages }}" class="item">{{ pagination.availablePages }}</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </th>
+                </tr>
+            </tfoot>
         </table>
     </div>
 {% endblock %}
