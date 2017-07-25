@@ -69,6 +69,18 @@ $app->register(new \Silex\Provider\SecurityServiceProvider(), [
     }
 ]);
 
+$app->register(new \Silex\Provider\CsrfServiceProvider());
+
+$app->register(new \Silex\Provider\LocaleServiceProvider());
+
+$app->register(new Silex\Provider\TranslationServiceProvider(), array(
+    'translator.domains' => array(),
+));
+
+$app->register(new \Silex\Provider\ValidatorServiceProvider());
+
+$app->register(new \Silex\Provider\FormServiceProvider());
+
 $app['SecurityController'] = function () use ($app) {
     return new SecurityController($app);
 };
@@ -77,10 +89,15 @@ $app['DashboardController'] = function () use ($app) {
     return new DashboardController($app);
 };
 
-$app->get('/', 'SecurityController:signinAction');
+$app
+    ->get('/', 'SecurityController:signinAction')
+    ->bind('homepage')
+;
 
-$app->get('/signout', 'SecurityController:signoutAction');
-
-$app->get('/dashboard', 'DashboardController:indexAction');
+$app
+    ->match('/dashboard', 'DashboardController:indexAction')
+    ->method('GET|POST')
+    ->bind('dashboard')
+;
 
 $app->run();

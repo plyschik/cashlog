@@ -5,7 +5,12 @@
         "twig/twig": "^2.4",
         "symfony/twig-bridge": "^3.3",
         "doctrine/dbal": "^2.6",
-        "symfony/security": "^3.3"
+        "symfony/security": "^3.3",
+        "symfony/validator": "^3.3",
+        "symfony/form": "^3.3",
+        "symfony/config": "^3.3",
+        "symfony/translation": "^3.3",
+        "symfony/security-csrf": "^3.3"
     },
     "autoload": {
         "psr-4": {

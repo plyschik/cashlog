@@ -14,8 +14,4 @@ class SecurityController extends BaseController
             'last_username' => $this->app['session']->get('_security.last_username')
         ]);
     }
-
-    public function signoutAction()
-    {
-    }
 }

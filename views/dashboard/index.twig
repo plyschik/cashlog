@@ -3,32 +3,34 @@
 {% block content %}
     <div class="ui menu inverted">
         <div class="ui container">
-            <div class="header item">CashLog</div>
+            <div class="header item">
+                <a href="{{ url('dashboard') }}">CashLog</a>
+            </div>
             <a href="#" class="item">Link</a>
             <a href="#" class="item">Link</a>
             <a href="#" class="item">Link</a>
             <div class="right menu">
-                <a href="#" class="item">Wyloguj się</a>
+                <a href="{{ url('signout') }}" class="item">Wyloguj się</a>
             </div>
         </div>
     </div>
     <div class="ui container">
-        <form class="ui form">
+        {{ form_start(form, { 'attr': { 'class': 'ui form', 'novalidate': 'novalidate' } }) }}
             <div class="fields">
                 <div class="four wide field">
-                    <input type="text" name="" placeholder="Data...">
+                    {{ form_row(form.datetime, {'attr': {'placeholder': 'Data...'}}) }}
                 </div>
                 <div class="six wide field">
-                    <input type="text" name="" placeholder="Opis...">
+                    {{ form_row(form.description, {'attr': {'placeholder': 'Opis...'}}) }}
                 </div>
                 <div class="four wide field">
-                    <input type="text" name="" placeholder="Zmiana salda o...">
+                    {{ form_row(form.cash, {'attr': {'placeholder': 'Kwota...'}}) }}
                 </div>
                 <div class="two wide field">
                     <input class="ui button fluid" type="submit" value="Zapisz">
                 </div>
             </div>
-        </form>
+        {{ form_end(form) }}
         <table class="ui striped table">
             <thead>
                 <tr>
