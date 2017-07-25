@@ -15,6 +15,9 @@
         </div>
     </div>
     <div class="ui container">
+        {% for alert in app.session.flashbag.get('success') %}
+                <div class="ui message positive">{{ alert }}</div>
+        {% endfor %}
         {{ form_start(form, { 'attr': { 'class': 'ui form', 'novalidate': 'novalidate' } }) }}
             {% if not form.vars.valid %}
                 <div class="ui negative message">
@@ -26,11 +29,11 @@
                 </div>
             {% endif %}
             <div class="fields">
-                <div class="four wide field {% if not form.datetime.vars.valid %}error{% endif %}">
-                    {{ form_widget(form.datetime, {'attr': {'placeholder': 'Data...'}}) }}
-                </div>
-                <div class="six wide field {% if not form.description.vars.valid %}error{% endif %}">
+                <div class="eight wide field {% if not form.description.vars.valid %}error{% endif %}">
                     {{ form_widget(form.description, {'attr': {'placeholder': 'Opis...'}}) }}
+                </div>
+                <div class="two wide field {% if not form.type.vars.valid %}error{% endif %}">
+                    {{ form_widget(form.type) }}
                 </div>
                 <div class="four wide field {% if not form.cash.vars.valid %}error{% endif %}">
                     {{ form_widget(form.cash, {'attr': {'placeholder': 'Kwota...'}}) }}

@@ -2,6 +2,7 @@
 
 namespace CashLog\Controller;
 
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -12,13 +13,15 @@ class DashboardController extends BaseController
     public function indexAction(Request $request)
     {
         $form = $this->app['form.factory']->createBuilder()
-            ->add('datetime', TextType::class, [
+            ->add('type', ChoiceType::class, [
                 'label' => false,
-                'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'Data jest polem wymaganym.'
-                    ])
-                ]
+                'choices' => [
+                    'WPŁATA' => 0,
+                    'WYPŁATA' => 1
+                ],
+                'constraints' => new Assert\Choice([
+                    'choices' => [0, 1]
+                ])
             ])
             ->add('description', TextType::class, [
                 'label' => false,
@@ -35,8 +38,7 @@ class DashboardController extends BaseController
                         'message' => 'Kwota jest polem wymaganym.'
                     ])
                 ],
-                'currency' => '',
-                'divisor' => 100
+                'currency' => ''
             ])
             ->getForm()
         ;
@@ -44,6 +46,26 @@ class DashboardController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $data = $form->getData();
+
+            switch ($data['type']) {
+                case 0:
+                    $this->app['db']->executeQuery('CALL payin(?, ?)', [
+                        $data['description'],
+                        $data['cash']
+                    ]);
+                break;
+                case 1:
+                    $this->app['db']->executeQuery('CALL payout(?, ?)', [
+                        $data['description'],
+                        $data['cash']
+                    ]);
+                break;
+            }
+
+            $this->app['session']->getFlashBag()->add('success', 'Operacja zakończyła się sukcesem!');
+
+            return $this->app->redirect($this->app->url('dashboard'));
         }
 
         $logs = $this->app['db']->fetchAll('SELECT type, datetime, description, cash, balance FROM cashlog ORDER BY id DESC');
