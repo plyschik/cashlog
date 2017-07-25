@@ -16,15 +16,24 @@
     </div>
     <div class="ui container">
         {{ form_start(form, { 'attr': { 'class': 'ui form', 'novalidate': 'novalidate' } }) }}
+            {% if not form.vars.valid %}
+                <div class="ui negative message">
+                    {% for child in form.children %}
+                        {% for error in child.vars.errors %}
+                            <p>{{ error.message }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
             <div class="fields">
                 <div class="four wide field">
-                    {{ form_row(form.datetime, {'attr': {'placeholder': 'Data...'}}) }}
+                    {{ form_widget(form.datetime, {'attr': {'placeholder': 'Data...'}}) }}
                 </div>
                 <div class="six wide field">
-                    {{ form_row(form.description, {'attr': {'placeholder': 'Opis...'}}) }}
+                    {{ form_widget(form.description, {'attr': {'placeholder': 'Opis...'}}) }}
                 </div>
                 <div class="four wide field">
-                    {{ form_row(form.cash, {'attr': {'placeholder': 'Kwota...'}}) }}
+                    {{ form_widget(form.cash, {'attr': {'placeholder': 'Kwota...'}}) }}
                 </div>
                 <div class="two wide field">
                     <input class="ui button fluid" type="submit" value="Zapisz">
