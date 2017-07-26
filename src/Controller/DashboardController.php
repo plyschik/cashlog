@@ -10,28 +10,13 @@ class DashboardController extends BaseController
 {
     public function indexAction(Request $request)
     {
-        $form = $this->app['form.factory']->create(OperationType::class);
-
-        $form->handleRequest($request);
+        $form = $this->app['form.factory']->create(OperationType::class)->handleRequest($request);
 
         if ($form->isValid()) {
             $data = $form->getData();
 
-            switch ($data['type']) {
-                case 0:
-                    $this->app['db']->executeQuery('CALL payin(?, ?)', [
-                        $data['description'],
-                        $data['cash']
-                    ]);
-                break;
-                case 1:
-                    $this->app['db']->executeQuery('CALL payout(?, ?)', [
-                        $data['description'],
-                        $data['cash']
-                    ]);
-                break;
-            }
-
+            $this->app['OperationModel']->addOperation($data['type'], $data['description'], $data['cash']);
+            
             $this->app['session']->getFlashBag()->add('success', 'Operacja zakończyła się sukcesem!');
 
             return $this->app->redirect($this->app->url('dashboard'));
@@ -42,7 +27,7 @@ class DashboardController extends BaseController
         $currentPage = ($request->query->get('page') > 0 && $request->query->get('page') <= $availablePages) ? $request->query->get('page') : 1;
 
         $start = ($currentPage > 1) ? $currentPage * getenv('ITEMS_PER_PAGE') - getenv('ITEMS_PER_PAGE') : 0;
-        
+
         $logs = $this->app['OperationModel']->getOperations($start, getenv('ITEMS_PER_PAGE'));
 
         return $this->app->render('dashboard/index.twig', [

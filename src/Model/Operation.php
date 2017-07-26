@@ -17,4 +17,22 @@ class Operation
     {
         return $this->connection->fetchAll("SELECT id, type, datetime, description, cash, balance FROM cashlog ORDER BY id DESC LIMIT {$start}, {$limit}");
     }
+
+    public function addOperation($type, $description, $cash)
+    {
+        switch ($type) {
+            case 0:
+                $this->connection->executeQuery('CALL payin(?, ?)', [
+                    $description,
+                    $cash
+                ]);
+            break;
+            case 1:
+                $this->connection->executeQuery('CALL payout(?, ?)', [
+                    $description,
+                    $cash
+                ]);
+            break;
+        }
+    }
 }
