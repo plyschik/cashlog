@@ -8,15 +8,15 @@ use Symfony\Component\HttpFoundation\Request;
 class OperationsPaginator
 {
     private $connection;
-    private $request;
+    private $requestPage;
     private $limit;
     private $currentPage;
     private $availablePages;
 
-    public function __construct(Connection $connection, Request $request, $limit)
+    public function __construct(Connection $connection, $requestPage, $limit)
     {
         $this->connection = $connection;
-        $this->request = $request;
+        $this->requestPage = $requestPage;
         $this->limit = $limit;
 
         $this->calculateAvailablePages();
@@ -30,7 +30,7 @@ class OperationsPaginator
 
     public function calculateCurrentPage()
     {
-        $this->currentPage = ($this->request->query->get('page') > 0 && $this->request->query->get('page') <= $this->getAvailablePages()) ? $this->request->query->get('page') : 1;
+        $this->currentPage = ($this->requestPage > 0 && $this->requestPage <= $this->getAvailablePages()) ? $this->requestPage : 1;
     }
 
     public function getStart()

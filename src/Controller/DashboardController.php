@@ -16,14 +16,14 @@ class DashboardController extends BaseController
         if ($form->isValid()) {
             $data = $form->getData();
 
-            $this->app['OperationModel']->addOperation($data['type'], $data['description'], $data['cash']);
+            $this->app['OperationModel']->createOperation($data['type'], $data['description'], $data['cash']);
 
             $this->app['session']->getFlashBag()->add('success', 'Operacja zakończyła się sukcesem!');
 
             return $this->app->redirect($this->app->url('dashboard'));
         }
         
-        $paginator = new OperationsPaginator($this->app['db'], $request, getenv('ITEMS_PER_PAGE'));
+        $paginator = new OperationsPaginator($this->app['db'], $request->query->get('page'), getenv('ITEMS_PER_PAGE'));
 
         $logs = $this->app['OperationModel']->getOperations($paginator->getStart(), getenv('ITEMS_PER_PAGE'));
 

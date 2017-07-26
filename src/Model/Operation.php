@@ -18,7 +18,7 @@ class Operation
         return $this->connection->fetchAll("SELECT id, type, datetime, description, cash, balance FROM cashlog ORDER BY id DESC LIMIT {$start}, {$limit}");
     }
 
-    public function addOperation($type, $description, $cash)
+    public function createOperation($type, $description, $cash)
     {
         switch ($type) {
             case 0:
