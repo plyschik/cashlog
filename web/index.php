@@ -1,6 +1,8 @@
 <?php
 
 use Dotenv\Dotenv;
+use CashLog\Model\User;
+use CashLog\Model\Operation;
 use CashLog\CashLogApplication;
 use CashLog\Controller\SecurityController;
 use CashLog\Controller\DashboardController;
@@ -69,6 +71,18 @@ $app->register(new \Silex\Provider\SecurityServiceProvider(), [
     }
 ]);
 
+$app->register(new \Silex\Provider\CsrfServiceProvider());
+
+$app->register(new \Silex\Provider\LocaleServiceProvider());
+
+$app->register(new Silex\Provider\TranslationServiceProvider(), array(
+    'translator.domains' => array(),
+));
+
+$app->register(new \Silex\Provider\ValidatorServiceProvider());
+
+$app->register(new \Silex\Provider\FormServiceProvider());
+
 $app['SecurityController'] = function () use ($app) {
     return new SecurityController($app);
 };
@@ -77,10 +91,35 @@ $app['DashboardController'] = function () use ($app) {
     return new DashboardController($app);
 };
 
-$app->get('/', 'SecurityController:signinAction');
+$app['OperationModel'] = function () use ($app) {
+    return new Operation($app['db']);
+};
 
-$app->get('/signout', 'SecurityController:signoutAction');
+$app['UserModel'] = function () use ($app) {
+    return new User($app['db']);
+};
 
-$app->get('/dashboard', 'DashboardController:indexAction');
+$app
+    ->get('/', 'SecurityController:signinAction')
+    ->bind('homepage')
+;
+
+$app
+    ->match('/dashboard', 'DashboardController:indexAction')
+    ->method('GET|POST')
+    ->bind('dashboard')
+;
+
+$app
+    ->match('/dashboard/edit/{id}', 'DashboardController:editAction')
+    ->method('GET|POST')
+    ->bind('edit')
+;
+
+$app
+    ->match('/dashboard/remove/{id}', 'DashboardController:removeAction')
+    ->method('GET|POST')
+    ->bind('remove')
+;
 
 $app->run();
