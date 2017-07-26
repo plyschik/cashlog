@@ -1,14 +1,16 @@
 {% extends 'layout.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>$('.ui.dropdown').dropdown();</script>
+{% endblock %}
+
 {% block content %}
     <div class="ui menu inverted">
         <div class="ui container">
             <div class="header item">
                 <a href="{{ url('dashboard') }}">CashLog</a>
             </div>
-            <a href="#" class="item">Link</a>
-            <a href="#" class="item">Link</a>
-            <a href="#" class="item">Link</a>
             <div class="right menu">
                 <a href="{{ url('signout') }}" class="item">Wyloguj się</a>
             </div>
@@ -50,6 +52,7 @@
         <table class="ui striped table">
             <thead>
                 <tr>
+                    <th></th>
                     <th>ID</th>
                     <th>Data</th>
                     <th>Komentarz</th>
@@ -60,6 +63,17 @@
             <tbody>
                 {% for log in logs %}
                     <tr>
+                        <td>
+                            <div class="ui icon top left pointing dropdown mini button">
+                                <i class="wrench icon"></i>
+                                <div class="menu">
+                                    <div class="item">Edytuj</div>
+                                    <div class="item">
+                                        <a href="{{ url('remove', {'id': log.id}) }}">Usuń</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
                         <td>{{ log.id }}</td>
                         <td>{{ log.datetime|date('d.m.Y H:i') }}</td>
                         <td>{{ log.description }}</td>
@@ -70,7 +84,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <th colspan="5">
+                    <th colspan="6">
                         <div class="ui right floated pagination menu">
                             {% if pagination.availablePages <= 5 %}
                                 {% for i in 1..pagination.availablePages %}

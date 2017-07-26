@@ -18,6 +18,16 @@ class Operation
         return $this->connection->fetchAll("SELECT id, type, datetime, description, cash, balance FROM cashlog ORDER BY id DESC LIMIT {$start}, {$limit}");
     }
 
+    public function getOperationById($id)
+    {
+        return $this->connection->executeQuery("SELECT id, type, datetime, description, cash, balance FROM cashlog WHERE id = ?", [$id])->fetch();
+    }
+
+    public function removeOperation($id)
+    {
+        $this->connection->delete('cashlog', ['id' => $id]);
+    }
+
     public function createOperation($type, $description, $cash)
     {
         switch ($type) {

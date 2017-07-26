@@ -1,6 +1,7 @@
 <?php
 
 use Dotenv\Dotenv;
+use CashLog\Model\User;
 use CashLog\Model\Operation;
 use CashLog\CashLogApplication;
 use CashLog\Controller\SecurityController;
@@ -94,6 +95,10 @@ $app['OperationModel'] = function () use ($app) {
     return new Operation($app['db']);
 };
 
+$app['UserModel'] = function () use ($app) {
+    return new User($app['db']);
+};
+
 $app
     ->get('/', 'SecurityController:signinAction')
     ->bind('homepage')
@@ -103,6 +108,12 @@ $app
     ->match('/dashboard', 'DashboardController:indexAction')
     ->method('GET|POST')
     ->bind('dashboard')
+;
+
+$app
+    ->match('/dashboard/remove/{id}', 'DashboardController:removeAction')
+    ->method('GET|POST')
+    ->bind('remove')
 ;
 
 $app->run();
