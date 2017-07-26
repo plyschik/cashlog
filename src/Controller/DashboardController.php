@@ -42,8 +42,8 @@ class DashboardController extends BaseController
         $currentPage = ($request->query->get('page') > 0 && $request->query->get('page') <= $availablePages) ? $request->query->get('page') : 1;
 
         $start = ($currentPage > 1) ? $currentPage * getenv('ITEMS_PER_PAGE') - getenv('ITEMS_PER_PAGE') : 0;
-
-        $logs = $this->app['db']->fetchAll("SELECT id, type, datetime, description, cash, balance FROM cashlog ORDER BY id DESC LIMIT " . $start . ", " . getenv('ITEMS_PER_PAGE'));
+        
+        $logs = $this->app['OperationModel']->getOperations($start, getenv('ITEMS_PER_PAGE'));
 
         return $this->app->render('dashboard/index.twig', [
             'logs'          => $logs,

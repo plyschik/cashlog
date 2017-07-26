@@ -1,6 +1,7 @@
 <?php
 
 use Dotenv\Dotenv;
+use CashLog\Model\Operation;
 use CashLog\CashLogApplication;
 use CashLog\Controller\SecurityController;
 use CashLog\Controller\DashboardController;
@@ -87,6 +88,10 @@ $app['SecurityController'] = function () use ($app) {
 
 $app['DashboardController'] = function () use ($app) {
     return new DashboardController($app);
+};
+
+$app['OperationModel'] = function () use ($app) {
+    return new Operation($app['db']);
 };
 
 $app
