@@ -111,6 +111,12 @@ $app
 ;
 
 $app
+    ->match('/dashboard/edit/{id}', 'DashboardController:editAction')
+    ->method('GET|POST')
+    ->bind('edit')
+;
+
+$app
     ->match('/dashboard/remove/{id}', 'DashboardController:removeAction')
     ->method('GET|POST')
     ->bind('remove')

@@ -23,6 +23,11 @@ class Operation
         return $this->connection->executeQuery("SELECT id, type, datetime, description, cash, balance FROM cashlog WHERE id = ?", [$id])->fetch();
     }
 
+    public function updateOperationDescription($id, $description)
+    {
+        $this->connection->update('cashlog', ['description' => $description], ['id' => $id]);
+    }
+
     public function removeOperation($id)
     {
         $this->connection->delete('cashlog', ['id' => $id]);

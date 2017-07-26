@@ -67,7 +67,9 @@
                             <div class="ui icon top left pointing dropdown mini button">
                                 <i class="wrench icon"></i>
                                 <div class="menu">
-                                    <div class="item">Edytuj</div>
+                                    <div class="item">
+                                        <a href="{{ url('edit', {'id': log.id}) }}">Edytuj</a>
+                                    </div>
                                     <div class="item">
                                         <a href="{{ url('remove', {'id': log.id}) }}">Usuń</a>
                                     </div>

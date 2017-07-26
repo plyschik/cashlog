@@ -4,6 +4,7 @@ namespace CashLog\Controller;
 
 use CashLog\Form\ConfirmType;
 use CashLog\Form\OperationType;
+use CashLog\Form\OperationEditType;
 use CashLog\Utility\OperationsPaginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -35,6 +36,42 @@ class DashboardController extends BaseController
                 'availablePages'    => $paginator->getAvailablePages(),
                 'currentPage'       => $paginator->getCurrentPage()
             ]
+        ]);
+    }
+
+    public function editAction($id, Request $request)
+    {
+        $data = $this->app['OperationModel']->getOperationById($id);
+
+        if (!$data) {
+            return $this->app->redirect($this->app->url('dashboard'));
+        }
+
+        $form = $this->app['form.factory']->create(OperationEditType::class, $data)->handleRequest($request);
+
+        if ($form->isValid()) {
+            $data = $form->getData();
+
+            $user = $this->app['security.token_storage']->getToken()->getUser();
+            $encoder = $this->app['security.encoder_factory']->getEncoder($user);
+
+            $isValid = $encoder->isPasswordValid($this->app['UserModel']->getPasswordByUsername($user->getUsername()), $data['password'], $user->getSalt());
+
+            if ($isValid) {
+                $this->app['OperationModel']->updateOperationDescription($id, $data['description']);
+
+                $this->app['session']->getFlashBag()->add('success', 'Zapis operacji został poprawnie zaktualizowany!');
+
+                return $this->app->redirect($this->app->url('dashboard'));
+            } else {
+                $this->app['session']->getFlashBag()->add('error', 'Podane hasło jest niepoprawne!');
+
+                return $this->app->redirect($request->headers->get('referer'));
+            }
+        }
+
+        return $this->app->render('dashboard/edit.twig', [
+            'form'  => $form->createView()
         ]);
     }
 
