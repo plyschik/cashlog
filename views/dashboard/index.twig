@@ -16,11 +16,11 @@
     </div>
     <div class="ui container">
         {% for alert in app.session.flashbag.get('success') %}
-                <div class="ui message positive">{{ alert }}</div>
+            <div class="ui message positive">{{ alert }}</div>
         {% endfor %}
         <h3 class="ui header">Nowa operacja</h3>
         <div class="ui divider"></div>
-        {{ form_start(form, { 'attr': { 'class': 'ui form', 'novalidate': 'novalidate' } }) }}
+        {{ form_start(form) }}
             {% if not form.vars.valid %}
                 <div class="ui negative message">
                     {% for child in form.children %}
@@ -35,10 +35,10 @@
                     {{ form_widget(form.type) }}
                 </div>
                 <div class="eight wide field {% if not form.description.vars.valid %}error{% endif %}">
-                    {{ form_widget(form.description, {'attr': {'placeholder': 'Opis...'}}) }}
+                    {{ form_widget(form.description) }}
                 </div>
                 <div class="four wide field {% if not form.cash.vars.valid %}error{% endif %}">
-                    {{ form_widget(form.cash, {'attr': {'placeholder': 'Kwota...'}}) }}
+                    {{ form_widget(form.cash) }}
                 </div>
                 <div class="two wide field">
                     <input class="ui button fluid" type="submit" value="Zapisz">
