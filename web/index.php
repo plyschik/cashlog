@@ -17,10 +17,13 @@ $app = new CashLogApplication([
 
 $app->register(new \Silex\Provider\ServiceControllerServiceProvider());
 
+$app->register(new \Silex\Provider\VarDumperServiceProvider());
+
 $app->register(new \Silex\Provider\TwigServiceProvider(), [
     'twig.path' => __DIR__ . '/../views',
     'twig.options' => [
-        'cache' => __DIR__ . '/../var/cache'
+        'cache' => __DIR__ . '/../var/cache',
+        'strict_variables' => false
     ]
 ]);
 
@@ -79,7 +82,13 @@ $app->register(new Silex\Provider\TranslationServiceProvider(), array(
     'translator.domains' => array(),
 ));
 
-$app->register(new \Silex\Provider\ValidatorServiceProvider());
+$app->register(new \CashLog\Provider\ConfirmPasswordValidatorServiceProvider());
+
+$app->register(new \Silex\Provider\ValidatorServiceProvider(), [
+    'validator.validator_service_ids' => [
+        'validator.confirmpassword' => 'validator.confirmpassword'
+    ]
+]);
 
 $app->register(new \Silex\Provider\FormServiceProvider());
 

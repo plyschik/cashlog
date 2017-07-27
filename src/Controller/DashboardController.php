@@ -52,22 +52,11 @@ class DashboardController extends BaseController
         if ($form->isValid()) {
             $data = $form->getData();
 
-            $user = $this->app['security.token_storage']->getToken()->getUser();
-            $encoder = $this->app['security.encoder_factory']->getEncoder($user);
+            $this->app['OperationModel']->updateOperationDescription($id, $data['description']);
 
-            $isValid = $encoder->isPasswordValid($this->app['UserModel']->getPasswordByUsername($user->getUsername()), $data['password'], $user->getSalt());
+            $this->app['session']->getFlashBag()->add('success', 'Zapis operacji został poprawnie zaktualizowany!');
 
-            if ($isValid) {
-                $this->app['OperationModel']->updateOperationDescription($id, $data['description']);
-
-                $this->app['session']->getFlashBag()->add('success', 'Zapis operacji został poprawnie zaktualizowany!');
-
-                return $this->app->redirect($this->app->url('dashboard'));
-            } else {
-                $this->app['session']->getFlashBag()->add('error', 'Podane hasło jest niepoprawne!');
-
-                return $this->app->redirect($request->headers->get('referer'));
-            }
+            return $this->app->redirect($this->app->url('dashboard'));
         }
 
         return $this->app->render('dashboard/edit.twig', [
@@ -80,25 +69,11 @@ class DashboardController extends BaseController
         $form = $this->app['form.factory']->create(ConfirmType::class)->handleRequest($request);
 
         if ($form->isValid()) {
-            $data = $form->getData();
+            $this->app['OperationModel']->removeOperation($id);
 
+            $this->app['session']->getFlashBag()->add('success', 'Zapis operacji został poprawnie usuniętusunięty!');
 
-            $user = $this->app['security.token_storage']->getToken()->getUser();
-            $encoder = $this->app['security.encoder_factory']->getEncoder($user);
-
-            $isValid = $encoder->isPasswordValid($this->app['UserModel']->getPasswordByUsername($user->getUsername()), $data['password'], $user->getSalt());
-
-            if ($isValid) {
-                $this->app['OperationModel']->removeOperation($id);
-
-                $this->app['session']->getFlashBag()->add('success', 'Zapis operacji został poprawnie usuniętusunięty!');
-
-                return $this->app->redirect($this->app->url('dashboard'));
-            } else {
-                $this->app['session']->getFlashBag()->add('error', 'Podane hasło jest niepoprawne!');
-
-                return $this->app->redirect($request->headers->get('referer'));
-            }
+            return $this->app->redirect($this->app->url('dashboard'));
         }
 
         return $this->app->render('dashboard/remove.twig', [
