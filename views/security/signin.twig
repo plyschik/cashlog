@@ -24,6 +24,9 @@
                 <div class="ui negative message">
                     {{ error }}
                 </div>
+                {% if availableSigninAttempts < SIGNIN_ATTEMPTS %}
+                    <div class="ui message">Pozostało prób: {{ availableSigninAttempts }}.</div>
+                {% endif %}
             {% endif %}
             <form class="ui large form" action="{{ path('signin') }}" method="post">
                 <div class="ui stacked segment">

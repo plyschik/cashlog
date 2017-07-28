@@ -6,6 +6,8 @@ use CashLog\Model\Operation;
 use CashLog\CashLogApplication;
 use CashLog\Controller\SecurityController;
 use CashLog\Controller\DashboardController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Event\AuthenticationFailureEvent;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -26,6 +28,13 @@ $app->register(new \Silex\Provider\TwigServiceProvider(), [
         'strict_variables' => false
     ]
 ]);
+
+$app->extend('twig', function ($twig, $app) {
+    $twig->addGlobal('SIGNIN_ATTEMPTS', getenv('SIGNIN_ATTEMPTS'));
+    $twig->addGlobal('SIGNIN_ATTEMPTS_INTERVAL', getenv('SIGNIN_ATTEMPTS_INTERVAL'));
+
+    return $twig;
+});
 
 $app->register(new \Silex\Provider\DoctrineServiceProvider(), [
    'db.options' => [
@@ -108,6 +117,10 @@ $app['UserModel'] = function () use ($app) {
     return new User($app['db']);
 };
 
+$app['availableSigninAttempts'] = function () use ($app) {
+    return $app['db']->fetchColumn("SELECT " . getenv('SIGNIN_ATTEMPTS') . " - (SELECT COUNT(*) FROM signin_failed_attempts WHERE datetime >= DATE_SUB(NOW(), INTERVAL " . getenv('SIGNIN_ATTEMPTS_INTERVAL') . " MINUTE))");
+};
+
 $app
     ->get('/', 'SecurityController:signinAction')
     ->bind('homepage')
@@ -130,5 +143,12 @@ $app
     ->method('GET|POST')
     ->bind('remove')
 ;
+
+$app->on('security.authentication.failure', function (AuthenticationFailureEvent $e) use ($app) {
+    $app['db']->insert('signin_failed_attempts', [
+        'ip_address'    => "INET_ATON('" . $_SERVER['REMOTE_ADDR'] . "')",
+        'useragent'     => $_SERVER['HTTP_USER_AGENT']
+    ]);
+});
 
 $app->run();

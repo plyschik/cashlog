@@ -1,0 +1,26 @@
+{% extends 'layout.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body {
+            background-color: #E9E9E9;
+        }
+
+        body > .grid {
+            height: 100%;
+        }
+
+        .column {
+            max-width: 450px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="ui middle aligned center aligned grid">
+        <div class="column">
+            <div class="ui message negative">Przekroczono liczbę prób logowania.<br>Spróbuj ponownie za {{ SIGNIN_ATTEMPTS_INTERVAL }} minut.</div>
+        </div>
+    </div>
+{% endblock %}
