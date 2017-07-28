@@ -9,7 +9,7 @@ use CashLog\Utility\OperationsPaginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class DashboardController extends BaseController
+class LogsController extends BaseController
 {
     public function indexAction(Request $request)
     {
@@ -22,14 +22,14 @@ class DashboardController extends BaseController
 
             $this->app['session']->getFlashBag()->add('success', 'Operacja zakończyła się sukcesem!');
 
-            return $this->app->redirect($this->app->url('dashboard'));
+            return $this->app->redirect($this->app->url('logs.index'));
         }
         
         $paginator = new OperationsPaginator($this->app['db'], $request->query->get('page'), getenv('ITEMS_PER_PAGE'));
 
         $logs = $this->app['OperationModel']->getOperations($paginator->getStart(), getenv('ITEMS_PER_PAGE'));
 
-        return $this->app->render('dashboard/index.twig', [
+        return $this->app->render('logs/index.twig', [
             'logs'          => $logs,
             'form'          => $form->createView(),
             'pagination'    => [
@@ -44,7 +44,7 @@ class DashboardController extends BaseController
         $data = $this->app['OperationModel']->getOperationById($id);
 
         if (!$data) {
-            return $this->app->redirect($this->app->url('dashboard'));
+            return $this->app->redirect($this->app->url('logs'));
         }
 
         $form = $this->app['form.factory']->create(OperationEditType::class, $data)->handleRequest($request);
@@ -56,27 +56,27 @@ class DashboardController extends BaseController
 
             $this->app['session']->getFlashBag()->add('success', 'Zapis operacji został poprawnie zaktualizowany!');
 
-            return $this->app->redirect($this->app->url('dashboard'));
+            return $this->app->redirect($this->app->url('logs.index'));
         }
 
-        return $this->app->render('dashboard/edit.twig', [
+        return $this->app->render('logs/edit.twig', [
             'form'  => $form->createView()
         ]);
     }
 
-    public function removeAction($id, Request $request)
+    public function removeAction(Request $request)
     {
         $form = $this->app['form.factory']->create(ConfirmType::class)->handleRequest($request);
 
         if ($form->isValid()) {
-            $this->app['OperationModel']->removeOperation($id);
+            $this->app['OperationModel']->removeOperation();
 
-            $this->app['session']->getFlashBag()->add('success', 'Zapis operacji został poprawnie usuniętusunięty!');
+            $this->app['session']->getFlashBag()->add('success', 'Zapis operacji został poprawnie usuniętusunięty.');
 
-            return $this->app->redirect($this->app->url('dashboard'));
+            return $this->app->redirect($this->app->url('logs.index'));
         }
 
-        return $this->app->render('dashboard/remove.twig', [
+        return $this->app->render('logs/remove.twig', [
             'form' => $form->createView()
         ]);
     }

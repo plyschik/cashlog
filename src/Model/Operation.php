@@ -28,9 +28,9 @@ class Operation
         $this->connection->update('cashlog', ['description' => $description], ['id' => $id]);
     }
 
-    public function removeOperation($id)
+    public function removeOperation()
     {
-        $this->connection->delete('cashlog', ['id' => $id]);
+        $this->connection->executeQuery("DELETE FROM cashlog ORDER BY id DESC LIMIT 1");
     }
 
     public function createOperation($type, $description, $cash)

@@ -1,13 +1,7 @@
 <?php
 
 use Dotenv\Dotenv;
-use CashLog\Model\User;
-use CashLog\Model\Operation;
 use CashLog\CashLogApplication;
-use CashLog\Controller\SecurityController;
-use CashLog\Controller\DashboardController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Event\AuthenticationFailureEvent;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -18,8 +12,6 @@ $app = new CashLogApplication([
 ]);
 
 $app->register(new \Silex\Provider\ServiceControllerServiceProvider());
-
-$app->register(new \Silex\Provider\VarDumperServiceProvider());
 
 $app->register(new \Silex\Provider\TwigServiceProvider(), [
     'twig.path' => __DIR__ . '/../views',
@@ -37,18 +29,14 @@ $app->extend('twig', function ($twig, $app) {
 });
 
 $app->register(new \Silex\Provider\DoctrineServiceProvider(), [
-   'db.options' => [
-       'driver'     => getenv('DATABASE_DRIVER'),
-       'host'       => getenv('DATABASE_HOST'),
-       'dbname'     => getenv('DATABASE_NAME'),
-       'user'       => getenv('DATABASE_USER'),
-       'password'   => getenv('DATABASE_PASSWORD'),
-       'charset'    => getenv('DATABASE_CHARSET')
-   ] 
-]);
-
-$app->register(new \Silex\Provider\SessionServiceProvider(), [
-    'session.storage.save_path' => __DIR__ . '/../var/sessions'
+    'db.options' => [
+        'driver'     => getenv('DATABASE_DRIVER'),
+        'host'       => getenv('DATABASE_HOST'),
+        'dbname'     => getenv('DATABASE_NAME'),
+        'user'       => getenv('DATABASE_USER'),
+        'password'   => getenv('DATABASE_PASSWORD'),
+        'charset'    => getenv('DATABASE_CHARSET')
+    ]
 ]);
 
 $app->register(new \Silex\Provider\SecurityServiceProvider(), [
@@ -63,7 +51,7 @@ $app->register(new \Silex\Provider\SecurityServiceProvider(), [
             'form' => [
                 'login_path' => '/',
                 'check_path' => '/signin',
-                'default_target_path' => '/dashboard'
+                'default_target_path' => '/logs'
             ],
             'logout' => [
                 'logout_path' => '/signout',
@@ -83,72 +71,66 @@ $app->register(new \Silex\Provider\SecurityServiceProvider(), [
     }
 ]);
 
-$app->register(new \Silex\Provider\CsrfServiceProvider());
-
-$app->register(new \Silex\Provider\LocaleServiceProvider());
-
-$app->register(new Silex\Provider\TranslationServiceProvider(), array(
-    'translator.domains' => array(),
-));
-
-$app->register(new \CashLog\Provider\ConfirmPasswordValidatorServiceProvider());
-
-$app->register(new \Silex\Provider\ValidatorServiceProvider(), [
-    'validator.validator_service_ids' => [
-        'validator.confirmpassword' => 'validator.confirmpassword'
-    ]
+$app->register(new \Silex\Provider\SessionServiceProvider(), [
+    'session.storage.save_path' => __DIR__ . '/../var/sessions'
 ]);
 
 $app->register(new \Silex\Provider\FormServiceProvider());
 
-$app['SecurityController'] = function () use ($app) {
-    return new SecurityController($app);
-};
+$app->register(new \Silex\Provider\CsrfServiceProvider());
 
-$app['DashboardController'] = function () use ($app) {
-    return new DashboardController($app);
-};
+$app->register(new \Silex\Provider\ValidatorServiceProvider(), [
+    'validator.validator_service_ids' => [
+        'validator.valid_password' => 'validator.valid_password'
+    ]
+]);
 
-$app['OperationModel'] = function () use ($app) {
-    return new Operation($app['db']);
-};
+$app->register(new \Silex\Provider\LocaleServiceProvider(), [
+    'locale' => 'pl'
+]);
 
-$app['UserModel'] = function () use ($app) {
-    return new User($app['db']);
-};
+$app->register(new Silex\Provider\TranslationServiceProvider(), [
+    'locale_fallbacks' => ['pl']
+]);
 
-$app['availableSigninAttempts'] = function () use ($app) {
-    return $app['db']->fetchColumn("SELECT " . getenv('SIGNIN_ATTEMPTS') . " - (SELECT COUNT(*) FROM signin_failed_attempts WHERE datetime >= DATE_SUB(NOW(), INTERVAL " . getenv('SIGNIN_ATTEMPTS_INTERVAL') . " MINUTE))");
-};
+$app->register(new \Silex\Provider\VarDumperServiceProvider());
 
-$app
-    ->get('/', 'SecurityController:signinAction')
-    ->bind('homepage')
-;
+$app->register(new \CashLog\Provider\ControllersServiceProvider());
 
-$app
-    ->match('/dashboard', 'DashboardController:indexAction')
-    ->method('GET|POST')
-    ->bind('dashboard')
-;
+$app->register(new \CashLog\Provider\ModelsServiceProvider());
 
-$app
-    ->match('/dashboard/edit/{id}', 'DashboardController:editAction')
-    ->method('GET|POST')
-    ->bind('edit')
-;
+$app->register(new \CashLog\Provider\ConstraintsServiceProvider());
 
-$app
-    ->match('/dashboard/remove/{id}', 'DashboardController:removeAction')
-    ->method('GET|POST')
-    ->bind('remove')
-;
+$app->register(new \CashLog\Provider\CashLogServiceProvider());
 
-$app->on('security.authentication.failure', function (AuthenticationFailureEvent $e) use ($app) {
+$app->on('security.authentication.failure', function () use ($app) {
     $app['db']->insert('signin_failed_attempts', [
         'ip_address'    => "INET_ATON('" . $_SERVER['REMOTE_ADDR'] . "')",
         'useragent'     => $_SERVER['HTTP_USER_AGENT']
     ]);
 });
+
+$app
+    ->get('/', 'SecurityController:signinAction')
+    ->bind('security.signin')
+;
+
+$app
+    ->match('/logs', 'LogsController:indexAction')
+    ->method('GET|POST')
+    ->bind('logs.index')
+;
+
+$app
+    ->match('/logs/edit/{id}', 'LogsController:editAction')
+    ->method('GET|POST')
+    ->bind('logs.edit')
+;
+
+$app
+    ->match('/logs/remove', 'LogsController:removeAction')
+    ->method('GET|POST')
+    ->bind('logs.remove')
+;
 
 $app->run();

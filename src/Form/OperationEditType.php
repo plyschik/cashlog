@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
-use CashLog\Validator\ConfirmPassword;
+use CashLog\Validator\ValidPassword;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -42,7 +42,7 @@ class OperationEditType extends AbstractType
                     new Assert\NotBlank([
                         'message' => 'Wpisz hasło.'
                     ]),
-                    new ConfirmPassword()
+                    new ValidPassword()
                 ]
             ])
             ->add('submit', SubmitType::class, [
@@ -58,8 +58,7 @@ class OperationEditType extends AbstractType
     {
         $resolver->setDefaults([
             'attr' => [
-                'class' => 'ui form',
-                'novalidate' => 'novalidate'
+                'class' => 'ui form'
             ]
         ]);
     }

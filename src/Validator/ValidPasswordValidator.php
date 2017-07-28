@@ -8,7 +8,7 @@ use CashLog\Model\User;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class ConfirmPasswordValidator extends ConstraintValidator
+class ValidPasswordValidator extends ConstraintValidator
 {
     private $tokenStorage;
     private $encoderFactory;

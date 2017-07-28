@@ -5,8 +5,8 @@ namespace CashLog\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use CashLog\Validator\ConfirmPassword;
-use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints as Assert;
+use CashLog\Validator\ValidPassword;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
@@ -18,10 +18,10 @@ class ConfirmType extends AbstractType
             ->add('password', PasswordType::class, [
                 'label' => false,
                 'constraints' => [
-                        new NotBlank([
-                            'message' => 'Wpisz hasło.'
-                        ]),
-                        new ConfirmPassword()
+                    new Assert\NotBlank([
+                        'message' => 'Wpisz hasło.'
+                    ]),
+                    new ValidPassword()
                 ],
                 'attr' => [
                     'placeholder' => 'Hasło...'

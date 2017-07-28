@@ -1,4 +1,4 @@
-{% extends 'layout.twig' %}
+{% extends 'security/layout.twig' %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -21,12 +21,10 @@
     <div class="ui middle aligned center aligned grid">
         <div class="column">
             {% if error %}
-                <div class="ui negative message">
-                    {{ error }}
-                </div>
-                {% if availableSigninAttempts < SIGNIN_ATTEMPTS %}
-                    <div class="ui message">Pozostało prób: {{ availableSigninAttempts }}.</div>
-                {% endif %}
+                <div class="ui message negative">{{ error|trans({}, 'messages') }}</div>
+            {% endif %}
+            {% if availableSigninAttempts < SIGNIN_ATTEMPTS %}
+                <div class="ui message">Pozostało prób: {{ availableSigninAttempts }}.</div>
             {% endif %}
             <form class="ui large form" action="{{ path('signin') }}" method="post">
                 <div class="ui stacked segment">
