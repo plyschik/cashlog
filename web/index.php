@@ -116,6 +116,12 @@ $app
 ;
 
 $app
+    ->match('/profile/changepassword', 'ProfileController:changePasswordAction')
+    ->method('GET|POST')
+    ->bind('profile.changepassword')
+;
+
+$app
     ->match('/logs', 'LogsController:indexAction')
     ->method('GET|POST')
     ->bind('logs.index')
