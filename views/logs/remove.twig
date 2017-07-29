@@ -1,7 +1,7 @@
 {% extends 'logs/layout.twig' %}
 
 {% block content %}
-    <h3 class="ui header">Potwierdź usunięcie zapisu operacji</h3>
+    <h3 class="ui header">Potwierdź usunięcie ostatniego zapisu operacji</h3>
     <div class="ui divider"></div>
     {% for alert in app.session.flashbag.get('error') %}
         <div class="ui message negative">{{ alert }}</div>
@@ -12,13 +12,11 @@
                 <p>{{ form.children.password.vars.errors[0].message }}</p>
             </div>
         {% endif %}
-        <div class="fields">
             <div class="field {% if not form.password.vars.valid %}error{% endif %}">
                 {{ form_widget(form.password) }}
             </div>
             <div class="field">
                 {{ form_widget(form.submit) }}
             </div>
-        </div>
     {{ form_end(form) }}
 {% endblock %}

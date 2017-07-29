@@ -25,14 +25,14 @@
             <div class="two wide field {% if not form.type.vars.valid %}error{% endif %}">
                 {{ form_widget(form.type) }}
             </div>
-            <div class="eight wide field {% if not form.description.vars.valid %}error{% endif %}">
+            <div class="seven wide field {% if not form.description.vars.valid %}error{% endif %}">
                 {{ form_widget(form.description) }}
             </div>
             <div class="four wide field {% if not form.cash.vars.valid %}error{% endif %}">
                 {{ form_widget(form.cash) }}
             </div>
-            <div class="two wide field">
-                <input class="ui button fluid" type="submit" value="Zapisz">
+            <div class="three wide field">
+                {{ form_widget(form.submit) }}
             </div>
         </div>
     {{ form_end(form) }}

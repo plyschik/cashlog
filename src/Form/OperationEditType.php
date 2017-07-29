@@ -46,7 +46,7 @@ class OperationEditType extends AbstractType
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Dalej',
+                'label' => 'Zaktualizuj',
                 'attr' => [
                     'class' => 'ui button'
                 ]

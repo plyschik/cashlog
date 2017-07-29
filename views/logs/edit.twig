@@ -16,16 +16,14 @@
                 {% endfor %}
             </div>
         {% endif %}
-        <div class="fields">
-            <div class="ten wide field {% if not form.description.vars.valid %}error{% endif %}">
-                {{ form_widget(form.description) }}
-            </div>
-            <div class="four wide field {% if not form.password.vars.valid %}error{% endif %}">
-                {{ form_widget(form.password) }}
-            </div>
-            <div class="two wide field">
-                {{ form_widget(form.submit) }}
-            </div>
+        <div class="field {% if not form.description.vars.valid %}error{% endif %}">
+            {{ form_widget(form.description) }}
+        </div>
+        <div class="field {% if not form.password.vars.valid %}error{% endif %}">
+            {{ form_widget(form.password) }}
+        </div>
+        <div class="field">
+            {{ form_widget(form.submit) }}
         </div>
     {{ form_end(form) }}
 {% endblock %}

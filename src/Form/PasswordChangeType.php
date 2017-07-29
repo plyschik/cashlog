@@ -43,7 +43,7 @@ class PasswordChangeType extends AbstractType
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Dalej',
+                'label' => 'Zmień hasło',
                 'attr' => [
                     'class' => 'ui button'
                 ]

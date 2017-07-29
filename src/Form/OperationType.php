@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class OperationType extends AbstractType
 {
@@ -29,6 +30,9 @@ class OperationType extends AbstractType
                         'choices' => [0, 1],
                         'message' => 'Wybierz poprawny typ operacji.'
                     ])
+                ],
+                'attr' => [
+                    'class' => 'ui fluid dropdown'
                 ]
             ])
             ->add('description', TextType::class, [
@@ -66,6 +70,12 @@ class OperationType extends AbstractType
                         'pattern' => '/^[0-9]{1,6}(?:\.[0-9]{0,2})?$/',
                         'message' => 'Wpisana kwota nie pasuje do wzoru. Kropka zamiast przecinka.'
                     ])
+                ]
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Dodaj nową operację',
+                'attr' => [
+                    'class' => 'ui button fluid'
                 ]
             ])
         ;

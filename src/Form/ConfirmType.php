@@ -28,7 +28,7 @@ class ConfirmType extends AbstractType
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Dalej',
+                'label' => 'Potwierdź',
                 'attr' => [
                     'class' => 'ui button'
                 ]
