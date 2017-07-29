@@ -10,7 +10,7 @@ class CashLogApplication extends Application
     use Application\SecurityTrait;
     use Application\UrlGeneratorTrait;
 
-    public function __construct(array $values)
+    public function __construct(array $values = [])
     {
         parent::__construct($values);
     }
