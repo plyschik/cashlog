@@ -1,0 +1,27 @@
+navbar:
+    brand: plBrand
+    removeLastOperationLog: Usuń ostatni zapis operacji
+    profile:
+        header: Profil
+        changePassword: Zmień hasło
+        signout: Wyloguj się
+
+newOperationLog:
+    header: Nowy zapis operacji
+    form:
+        type:
+            invalidType: Wybrany typ operacji jest niepoprawny.
+            choices:
+                in: WPŁATA
+                out: WYPŁATA
+        description:
+            placeholder: Opis...
+            notBlank: Opis nie może być pusty.
+            minMessage: Opis powinien mieć przynajmniej 8 znaków.
+            maxMessage: Opis powinien mieć maksymalnie 64 znaki.
+        cash:
+            placeholder: Kwota...
+            notBlank: Kwota nie może byś pusta.
+            invalidMessage: Wpisana kwota ma niepoprawną formę.
+        submit:
+            label: Dodaj nową operację

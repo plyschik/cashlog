@@ -11,16 +11,16 @@
     <div class="ui menu inverted">
         <div class="ui container">
             <div class="header item">
-                <a href="{{ url('logs.index') }}">CashLog</a>
+                <a href="{{ url('logs.index') }}">{{ 'navbar.brand'|trans }}</a>
             </div>
-            <a href="{{ url('logs.remove') }}" class="item">Usuń ostatni zapis operacji</a>
+            <a href="{{ url('logs.remove') }}" class="item">{{ 'navbar.removeLastOperationLog'|trans }}</a>
             <div class="right menu">
                 <div class="ui pointing dropdown link item">
-                    <span class="text">Profil</span>
+                    <span class="text">{{ 'navbar.profile.header'|trans }}</span>
                     <i class="dropdown icon"></i>
                     <div class="menu">
-                        <a href="{{ url('profile.changepassword') }}" class="item">Zmień hasło</a>
-                        <a href="{{ url('signout') }}" class="item">Wyloguj się</a>
+                        <a href="{{ url('profile.changepassword') }}" class="item">{{ 'navbar.profile.changePassword'|trans }}</a>
+                        <a href="{{ url('signout') }}" class="item">{{ 'navbar.profile.signout'|trans }}</a>
                     </div>
                 </div>
 

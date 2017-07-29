@@ -3,9 +3,10 @@
 $app->register(new \Silex\Provider\ServiceControllerServiceProvider());
 
 $app->register(new \Silex\Provider\TwigServiceProvider(), [
-    'twig.path' => __DIR__ . '/../views',
+    'twig.path' => __DIR__ . '/../resources/views',
     'twig.options' => [
-        'cache' => __DIR__ . '/../var/cache',
+    #    'cache' => __DIR__ . '/../var/cache',
+        'cache' => false,
         'strict_variables' => false
     ]
 ]);
@@ -79,9 +80,16 @@ $app->register(new \Silex\Provider\LocaleServiceProvider(), [
     'locale' => 'pl'
 ]);
 
-$app->register(new Silex\Provider\TranslationServiceProvider(), [
-    'locale_fallbacks' => ['pl']
-]);
+$app->register(new Silex\Provider\TranslationServiceProvider());
+
+$app->extend('translator', function ($translator, $app) {
+    $translator->addLoader('yaml', new \Symfony\Component\Translation\Loader\YamlFileLoader());
+
+    $translator->addResource('yaml', __DIR__ . '/../resources/translations/en.yml', 'en');
+    $translator->addResource('yaml', __DIR__ . '/../resources/translations/pl.yml', 'pl');
+
+    return $translator;
+});
 
 $app->register(new \CashLog\Provider\ControllersServiceProvider());
 

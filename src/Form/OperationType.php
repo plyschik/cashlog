@@ -17,63 +17,63 @@ class OperationType extends AbstractType
         $builder
             ->add('type', ChoiceType::class, [
                 'label' => false,
-                'invalid_message' => 'Wybrany typ operacji jest niepoprawny.',
+                'invalid_message' => 'newOperationLog.form.type.invalidType',
                 'choices' => [
-                    'WPŁATA' => 0,
-                    'WYPŁATA' => 1
+                    'newOperationLog.form.type.choices.in' => 0,
+                    'newOperationLog.form.type.choices.out' => 1
                 ],
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'Wybrany typ operacji nie istnieje.'
+                        'message' => 'newOperationLog.form.type.invalidType'
                     ]),
                     new Assert\Choice([
                         'choices' => [0, 1],
-                        'message' => 'Wybierz poprawny typ operacji.'
+                        'message' => 'newOperationLog.form.type.invalidType'
                     ])
                 ],
                 'attr' => [
-                    'class' => 'ui fluid dropdown'
+                    'class' => 'ui dropdown fluid'
                 ]
             ])
             ->add('description', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Opis...'
+                    'placeholder' => 'newOperationLog.form.description.placeholder'
                 ],
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'Opis jest polem wymaganym.'
+                        'message' => 'newOperationLog.form.description.notBlank'
                     ]),
                     new Assert\Length([
                         'min' => 8,
                         'max' => 64,
-                        'minMessage' => 'Opis musi zawierać conajmniej 8 znaków.',
-                        'maxMessage' => 'Opis może mieć maksymalnie 64 znaki.'
+                        'minMessage' => 'newOperationLog.form.description.minMessage',
+                        'maxMessage' => 'newOperationLog.form.description.maxMessage'
                     ])
                 ]
             ])
             ->add('cash', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Kwota...'
+                    'placeholder' => 'newOperationLog.form.cash.placeholder'
                 ],
-                'invalid_message' => 'Wpisana kwota jest niepoprawna.',
+                'invalid_message' => 'newOperationLog.form.cash.invalidMessage',
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'Kwota jest polem wymaganym.'
+                        'message' => 'newOperationLog.form.cash.notBlank'
                     ]),
                     new Assert\GreaterThan([
                         'value' => 0,
-                        'message' => 'Kwota powinna być liczbą większą od zera.'
+                        'message' => 'newOperationLog.form.cash.invalidMessage'
                     ]),
                     new Assert\Regex([
                         'pattern' => '/^[0-9]{1,6}(?:\.[0-9]{0,2})?$/',
-                        'message' => 'Wpisana kwota nie pasuje do wzoru. Kropka zamiast przecinka.'
+                        'message' => 'newOperationLog.form.cash.invalidMessage'
                     ])
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Dodaj nową operację',
+                'label' => 'newOperationLog.form.submit.label',
                 'attr' => [
                     'class' => 'ui button fluid'
                 ]
@@ -85,7 +85,8 @@ class OperationType extends AbstractType
     {
         $resolver->setDefaults([
             'attr' => [
-                'class' => 'ui form'
+                'class' => 'ui form',
+                'novalidate' => 'novalidate'
             ]
         ]);
     }

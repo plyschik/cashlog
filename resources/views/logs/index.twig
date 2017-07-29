@@ -1,22 +1,17 @@
 {% extends 'logs/layout.twig' %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <script>$('.ui.dropdown').dropdown();</script>
-{% endblock %}
-
 {% block content %}
     {% for alert in app.session.flashbag.get('success') %}
         <div class="ui message positive">{{ alert }}</div>
     {% endfor %}
-    <h3 class="ui header">Nowa operacja</h3>
+    <h3 class="ui header">{{ 'newOperationLog.header'|trans }}</h3>
     <div class="ui divider"></div>
     {{ form_start(form) }}
         {% if not form.vars.valid %}
             <div class="ui negative message">
                 {% for child in form.children %}
                     {% for error in child.vars.errors %}
-                        <p>{{ error.message }}</p>
+                        <p>{{ error.message|trans }}</p>
                     {% endfor %}
                 {% endfor %}
             </div>

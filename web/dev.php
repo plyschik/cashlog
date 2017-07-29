@@ -15,7 +15,9 @@ Debug::enable();
 
 (new Dotenv(__DIR__ . '/..'))->load();
 
-$app = new CashLogApplication();
+$app = new CashLogApplication([
+    'debug' => true
+]);
 
 require_once __DIR__ . '/../src/dev.providers.php';
 

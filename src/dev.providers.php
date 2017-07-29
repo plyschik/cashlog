@@ -10,3 +10,5 @@ $app->register(new \Silex\Provider\WebProfilerServiceProvider(), [
 ]);
 
 $app->register(new \Silex\Provider\HttpFragmentServiceProvider());
+
+$app['twig.options.cache'] = false;
