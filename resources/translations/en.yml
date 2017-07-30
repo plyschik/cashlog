@@ -2,6 +2,18 @@ constraints:
     ValidPassword:
         message: Password is not valid.
 
+signin:
+    messages:
+        availableSigninAttempts: Available signin attempts:
+        signinBlock: Signin attempts exceed.
+    form:
+        username:
+            placeholder: Username...
+        password:
+            placeholder: Password...
+        submit:
+            label: Signin
+
 navbar:
     brand: enBrand
     removeLastOperationLog: Remove last operation log

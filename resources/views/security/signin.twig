@@ -22,20 +22,20 @@
         <div class="column">
             {% if error %}
                 {% if availableSigninAttempts < SIGNIN_ATTEMPTS %}
-                    <div class="ui message">Pozostało prób: {{ availableSigninAttempts }}.</div>
+                    <div class="ui message">{{ 'signin.messages.availableSigninAttempts'|trans }}: {{ availableSigninAttempts }}.</div>
                 {% endif %}
                 <div class="ui message negative">{{ error|trans({}, 'messages') }}</div>
             {% endif %}
             <form class="ui large form" action="{{ path('signin') }}" method="post">
                 <div class="ui stacked segment">
                     <div class="field">
-                        <input type="text" name="_username" value="{{ last_username }}" placeholder="Nazwa użytkownika..." />
+                        <input type="text" name="_username" value="{{ last_username }}" placeholder="{{ 'signin.form.username.placeholder'|trans }}" />
                     </div>
                     <div class="field">
-                        <input type="password" name="_password" value="" placeholder="Hasło..." />
+                        <input type="password" name="_password" value="" placeholder="{{ 'signin.form.password.placeholder'|trans }}" />
                     </div>
-                    <input class="ui fluid button primary" type="submit" value="Zaloguj się" />
                 </div>
+                <input class="ui fluid button primary" type="submit" value="{{ 'signin.form.submit.label'|trans }}" />
             </form>
         </div>
     </div>

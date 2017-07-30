@@ -2,6 +2,18 @@ constraints:
     ValidPassword:
         message: Podane hasło jest niepoprawne.
 
+signin:
+    messages:
+        availableSigninAttempts: Pozostało prób
+        signinBlock: Przekroczono liczbę prób logowania.
+    form:
+        username:
+            placeholder: Nazwa użytkownika...
+        password:
+            placeholder: Hasło...
+        submit:
+            label: Zaloguj się
+
 navbar:
     brand: plBrand
     removeLastOperationLog: Usuń ostatni zapis operacji
