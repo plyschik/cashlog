@@ -4,17 +4,19 @@
 set_time_limit(0);
 
 use Dotenv\Dotenv;
-use CashLog\Provider\ModelsServiceProvider;
-use Silex\Provider\DoctrineServiceProvider;
-use Silex\Provider\ServiceControllerServiceProvider;
+use Silex\Application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Application as ConsoleApplication;
+use Silex\Provider\DoctrineServiceProvider;
+use CashLog\Provider\ModelsServiceProvider;
+use Silex\Provider\ServiceControllerServiceProvider;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 (new Dotenv(__DIR__ . '/..'))->load();
 
-$app = new Silex\Application();
+$app = new Application();
 
 $app->register(new ServiceControllerServiceProvider());
 
@@ -31,7 +33,7 @@ $app->register(new DoctrineServiceProvider(), [
 
 $app->register(new ModelsServiceProvider());
 
-$console = new \Symfony\Component\Console\Application('Cashlog', 'n/a');
+$console = new ConsoleApplication('Cashlog', 'n/a');
 
 $console
     ->register('cashlog:unblock')
