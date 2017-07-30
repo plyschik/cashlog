@@ -19,16 +19,16 @@ class ConfirmType extends AbstractType
                 'label' => false,
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'Wpisz hasło.'
+                        'message' => 'logRemove.form.password.notBlank'
                     ]),
                     new ValidPassword()
                 ],
                 'attr' => [
-                    'placeholder' => 'Hasło...'
+                    'placeholder' => 'logRemove.form.password.placeholder'
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Potwierdź',
+                'label' => 'logRemove.form.submit.label',
                 'attr' => [
                     'class' => 'ui button'
                 ]

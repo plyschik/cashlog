@@ -1,15 +1,15 @@
 {% extends 'logs/layout.twig' %}
 
 {% block content %}
-    <h3 class="ui header">Potwierdź usunięcie ostatniego zapisu operacji</h3>
+    <h3 class="ui header">{{ 'logRemove.header'|trans }}</h3>
     <div class="ui divider"></div>
     {% for alert in app.session.flashbag.get('error') %}
-        <div class="ui message negative">{{ alert }}</div>
+        <div class="ui message negative">{{ alert|trans }}</div>
     {% endfor %}
     {{ form_start(form) }}
         {% if not form.vars.valid %}
             <div class="ui negative message">
-                <p>{{ form.children.password.vars.errors[0].message }}</p>
+                <p>{{ form.children.password.vars.errors[0].message|trans }}</p>
             </div>
         {% endif %}
             <div class="field {% if not form.password.vars.valid %}error{% endif %}">

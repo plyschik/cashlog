@@ -19,31 +19,31 @@ class PasswordChangeType extends AbstractType
                 'label' => false,
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'Wpisz hasło.'
+                        'message' => 'passwordChange.form.password.validator.notBlank'
                     ]),
                     new ValidPassword()
                 ],
                 'attr' => [
-                    'placeholder' => 'Hasło...'
+                    'placeholder' => 'passwordChange.form.password.placeholder'
                 ]
             ])
             ->add('newPassword', PasswordType::class, [
                 'label' => false,
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'Wpisz nowe hasło.'
+                        'message' => 'passwordChange.form.newPassword.validator.notBlank'
                     ]),
                     new Assert\Length([
                         'min' => 8,
-                        'minMessage' => 'Nowe hasło powinno mieć conajmniej 8 znaków.'
+                        'minMessage' => 'passwordChange.form.newPassword.validator.minLength'
                     ])
                 ],
                 'attr' => [
-                    'placeholder' => 'Nowe hasło...'
+                    'placeholder' => 'passwordChange.form.newPassword.placeholder'
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Zmień hasło',
+                'label' => 'passwordChange.form.submit.label',
                 'attr' => [
                     'class' => 'ui button'
                 ]

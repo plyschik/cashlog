@@ -19,34 +19,34 @@ class OperationEditType extends AbstractType
             ->add('description', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Opis...'
+                    'placeholder' => 'logEdit.form.description.placeholder'
                 ],
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'Opis jest polem wymaganym.'
+                        'message' => 'logEdit.form.description.validator.notBlank'
                     ]),
                     new Assert\Length([
                         'min' => 8,
                         'max' => 64,
-                        'minMessage' => 'Opis musi zawierać conajmniej 8 znaków.',
-                        'maxMessage' => 'Opis może mieć maksymalnie 64 znaki.'
+                        'minMessage' => 'logEdit.form.description.validator.minLength',
+                        'maxMessage' => 'logEdit.form.description.validator.maxLength'
                     ])
                 ]
             ])
             ->add('password', PasswordType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Hasło...'
+                    'placeholder' => 'logEdit.form.password.placeholder'
                 ],
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'Wpisz hasło.'
+                        'message' => 'logEdit.form.password.validator.notBlank'
                     ]),
                     new ValidPassword()
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Zaktualizuj',
+                'label' => 'logEdit.form.submit.label',
                 'attr' => [
                     'class' => 'ui button'
                 ]

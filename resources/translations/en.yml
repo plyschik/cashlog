@@ -25,3 +25,55 @@ newOperationLog:
             invalidMessage: Cash form is invalid.
         submit:
             label: Add new operation log
+
+logsList:
+    header: List of operations log
+    table:
+        management:
+            edit: Edit
+        id: ID
+        datetime: Date
+        description: Description
+        cash: Balance change
+        balance: Current balance
+    empty: There is no operations logs to display.
+
+logRemove:
+    header: Legitimate remove last operation log
+    form:
+        password:
+            placeholder: Password...
+            notBlank: Password can not be empty.
+        submit:
+            label: Legitimate
+
+logEdit:
+    header: Edit of operation log
+    form:
+        description:
+            placeholder: Description...
+            validator:
+                notBlank: Description can not be empty.
+                minLength: Description should have minimum 8 characters.
+                maxLength: Description should have maximum 64 characters.
+        password:
+            placeholder: Password...
+            validator:
+                notBlank: Password can not be empty.
+        submit:
+            label: Update
+
+passwordChange:
+    header: Password change
+    form:
+        password:
+            placeholder: Password...
+            validator:
+                notBlank: Password can not be empty.
+        newPassword:
+            placeholder: New password...
+            validator:
+                notBlank: New password can not be empty.
+                minLength: New password should have minimum 8 characters.
+        submit:
+            label: Change password

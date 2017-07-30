@@ -1,3 +1,7 @@
+constraints:
+    ValidPassword:
+        message: Podane hasło jest niepoprawne.
+
 navbar:
     brand: plBrand
     removeLastOperationLog: Usuń ostatni zapis operacji
@@ -25,3 +29,55 @@ newOperationLog:
             invalidMessage: Wpisana kwota ma niepoprawną formę.
         submit:
             label: Dodaj nową operację
+
+logsList:
+    header: Lista zapisów operacji
+    table:
+        management:
+            edit: Edytuj
+        id: ID
+        datetime: Data
+        description: Opis
+        cash: Zmiana salda
+        balance: Bieżące saldo
+    empty: Brak zapisów operacji do wyświetlenia.
+
+logRemove:
+    header: Potwierdź usunięcie zapisu ostatniej operacji
+    form:
+        password:
+            placeholder: Hasło...
+            notBlank: Hasło nie może być puste.
+        submit:
+            label: Potwierdź
+
+logEdit:
+    header: Edycja zapisu operacji
+    form:
+        description:
+            placeholder: Opis...
+            validator:
+                notBlank: Opis nie może być pusty.
+                minLength: Opis powinien mieć conajmniej 8 znaków.
+                maxLength: Opis powinien mieć conajwyżej 64 znaki.
+        password:
+            placeholder: Hasło...
+            validator:
+                notBlank: Hasło nie może być puste.
+        submit:
+            label: Zaktualizuj
+
+passwordChange:
+    header: Zmiana hasła
+    form:
+        password:
+            placeholder: Hasło...
+            validator:
+                notBlank: Hasło nie może być puste.
+        newPassword:
+            placeholder: Nowe hasło...
+            validator:
+                notBlank: Hasło nie może być puste.
+                minLength: Nowe hasło powinno mieć conajmniej 8 znaków.
+        submit:
+            label: Zmień hasło

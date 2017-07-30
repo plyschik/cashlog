@@ -31,18 +31,18 @@
             </div>
         </div>
     {{ form_end(form) }}
-    <h3 class="ui header">Lista operacji</h3>
+    <h3 class="ui header">{{ 'logsList.header'|trans }}</h3>
     <div class="ui divider"></div>
     {% if logs %}
         <table class="ui striped table">
             <thead>
                 <tr>
                     <th></th>
-                    <th>ID</th>
-                    <th>Data</th>
-                    <th>Komentarz</th>
-                    <th>Zmiana salda</th>
-                    <th>Bierzące saldo</th>
+                    <th>{{ 'logsList.table.id'|trans }}</th>
+                    <th>{{ 'logsList.table.datetime'|trans }}</th>
+                    <th>{{ 'logsList.table.description'|trans }}</th>
+                    <th>{{ 'logsList.table.cash'|trans }}</th>
+                    <th>{{ 'logsList.table.balance'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,7 +53,7 @@
                                 <i class="wrench icon"></i>
                                 <div class="menu">
                                     <div class="item">
-                                        <a href="{{ url('logs.edit', {'id': log.id}) }}">Edytuj</a>
+                                        <a href="{{ url('logs.edit', {'id': log.id}) }}">{{ 'logsList.table.management.edit'|trans }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +66,7 @@
                     </tr>
                 {% endfor %}
             </tbody>
-            {% if logs.count() > ITEMS_PER_PAGE %}
+            {% if pagination.availablePages > 1 %}
                 <tfoot>
                     <tr>
                         <th colspan="6">
@@ -105,6 +105,6 @@
             {% endif %}
         </table>
     {% else %}
-        <div class="ui message info">Brak zapisów operacji.</div>
+        <div class="ui message info">{{ 'logsList.empty'|trans }}</div>
     {% endif %}
 {% endblock %}

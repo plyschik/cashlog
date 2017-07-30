@@ -1,7 +1,7 @@
 {% extends 'logs/layout.twig' %}
 
 {% block content %}
-    <h3 class="ui header">Edycja zapisu operacji</h3>
+    <h3 class="ui header">{{ 'logEdit.header'|trans }}</h3>
     <div class="ui divider"></div>
     {% for alert in app.session.flashbag.get('error') %}
         <div class="ui message negative">{{ alert }}</div>
@@ -11,7 +11,7 @@
             <div class="ui message negative">
                 {% for children in form.children %}
                     {% for error in children.vars.errors %}
-                        <p>{{ error.message }}</p>
+                        <p>{{ error.message|trans }}</p>
                     {% endfor %}
                 {% endfor %}
             </div>
