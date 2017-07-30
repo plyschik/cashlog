@@ -80,7 +80,9 @@ $app->register(new \Silex\Provider\LocaleServiceProvider(), [
     'locale' => 'pl'
 ]);
 
-$app->register(new Silex\Provider\TranslationServiceProvider());
+$app->register(new Silex\Provider\TranslationServiceProvider(), [
+    'locale_fallbacks' => ['en', 'pl']
+]);
 
 $app->extend('translator', function ($translator, $app) {
     $translator->addLoader('yaml', new \Symfony\Component\Translation\Loader\YamlFileLoader());

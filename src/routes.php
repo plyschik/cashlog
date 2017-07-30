@@ -1,5 +1,22 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Request;
+
+$app->before(function () use ($app) {
+    if ($app['session']->has('_locale')) {
+        $app['translator']->setLocale($app['session']->get('_locale'));
+    }
+});
+
+$app
+    ->get('/locale/{_locale}', function (Request $request) use ($app) {
+        $app['session']->set('_locale', $request->getLocale());
+
+        return $app->redirect($app->url('logs.index'));
+    })
+    ->bind('locale')
+;
+
 $app
     ->get('/', 'SecurityController:signinAction')
     ->bind('security.signin')

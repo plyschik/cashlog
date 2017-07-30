@@ -15,6 +15,8 @@
             </div>
             <a href="{{ url('logs.remove') }}" class="item">{{ 'navbar.removeLastOperationLog'|trans }}</a>
             <div class="right menu">
+                <a href="{{ url('locale', {'_locale': 'en'}) }}" class="item"><i class="gb flag"></i></a>
+                <a href="{{ url('locale', {'_locale': 'pl'}) }}" class="item"><i class="pl flag"></i></a>
                 <div class="ui pointing dropdown link item">
                     <span class="text">{{ 'navbar.profile.header'|trans }}</span>
                     <i class="dropdown icon"></i>
