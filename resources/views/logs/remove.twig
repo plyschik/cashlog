@@ -13,6 +13,7 @@
             </div>
         {% endif %}
             <div class="field {% if not form.password.vars.valid %}error{% endif %}">
+                <label>{{ form_label(form.password) }}</label>
                 {{ form_widget(form.password) }}
             </div>
             <div class="field">

@@ -1,3 +1,7 @@
+constraints:
+    ValidPassword:
+        message: Password is not valid.
+
 navbar:
     brand: enBrand
     removeLastOperationLog: Remove last operation log
@@ -10,19 +14,22 @@ newOperationLog:
     header: New operation log
     form:
         type:
-            invalidType: Selected operation type is invalid.
             choices:
                 in: PAYIN
                 out: PAYOUT
+            validator:
+                invalidType: Selected operation type is invalid.
         description:
             placeholder: Description...
-            notBlank: Description can not be empty.
-            minMessage: Description should have minimum 8 characters.
-            maxMessage: Description should have maximum 64 characters.
+            validator:
+                notBlank: Description can not be empty.
+                minLength: Description should have minimum 8 characters.
+                maxLength: Description should have maximum 64 characters.
         cash:
             placeholder: Cash...
-            notBlank: Cash can not be empty.
-            invalidMessage: Cash form is invalid.
+            validator:
+                notBlank: Cash can not be empty.
+                invalidMessage: Cash form is invalid.
         submit:
             label: Add new operation log
 

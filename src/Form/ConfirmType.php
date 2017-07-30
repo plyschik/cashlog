@@ -19,7 +19,7 @@ class ConfirmType extends AbstractType
                 'label' => false,
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'logRemove.form.password.notBlank'
+                        'message' => 'logRemove.form.password.validator.notBlank'
                     ]),
                     new ValidPassword()
                 ],
