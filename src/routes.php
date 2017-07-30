@@ -23,6 +23,11 @@ $app
 ;
 
 $app
+    ->get('/unblock/{key}', 'SecurityController:unblockAction')
+    ->bind('security.unblock')
+;
+
+$app
     ->match('/profile/changepassword', 'ProfileController:changePasswordAction')
     ->method('GET|POST')
     ->bind('profile.changepassword')

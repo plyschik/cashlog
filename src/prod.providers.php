@@ -55,6 +55,7 @@ $app->register(new \Silex\Provider\SecurityServiceProvider(), [
     ],
     'security.access_rules' => [
         ['^/signin$', 'IS_AUTHENTICATED_ANONYMOUSLY'],
+        ['^/unblock', 'IS_AUTHENTICATED_ANONYMOUSLY'],
         ['^/.+$', 'ROLE_USER']
     ],
     'security.default_encoder' => function () use ($app) {
@@ -100,10 +101,3 @@ $app->register(new \CashLog\Provider\ModelsServiceProvider());
 $app->register(new \CashLog\Provider\ConstraintsServiceProvider());
 
 $app->register(new \CashLog\Provider\CashLogServiceProvider());
-
-$app->on('security.authentication.failure', function () use ($app) {
-    $app['db']->insert('signin_failed_attempts', [
-        'ip_address'    => "INET_ATON('" . $_SERVER['REMOTE_ADDR'] . "')",
-        'useragent'     => $_SERVER['HTTP_USER_AGENT']
-    ]);
-});

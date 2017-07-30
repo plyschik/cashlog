@@ -20,4 +20,13 @@ class SecurityController extends BaseController
             return $this->app->render('security/signinblock.twig');
         }
     }
+
+    public function unblockAction($key)
+    {
+        if ($key == getenv('SIGNIN_UNBLOCK_KEY')) {
+            $this->app['UserModel']->truncateFailedAttempts();
+        }
+
+        return $this->app->redirect($this->app->url('security.signin'));
+    }
 }
