@@ -85,10 +85,14 @@ class CashLogSetupCommand extends Command
             $app['db']->executeQuery($query);
         }
 
+        $app['db']->executeQuery("DELIMITER $$ CREATE PROCEDURE `payin`(IN `description` VARCHAR(64) CHARSET utf8, IN `cash` DECIMAL(8,2) UNSIGNED) NO SQL IF(cash <= 0) THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cash cannot be negative or zero!'; ELSEIF (SELECT IFNULL((SELECT cl.balance FROM cashlog cl ORDER BY cl.id DESC LIMIT 1), 0) + cash) < 0 THEN SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = 'Balance cannot be negative!'; ELSE INSERT INTO cashlog (type, description, cash, balance) VALUES (0, description, cash, (IFNULL((SELECT cl.balance FROM cashlog cl ORDER BY cl.id DESC LIMIT 1), 0) + cash)); END IF$$ DELIMITER ;");
+
+        $app['db']->executeQuery("DELIMITER $$ CREATE PROCEDURE `payout`(IN `description` VARCHAR(64) CHARSET utf8, IN `cash` DECIMAL(8,2) UNSIGNED) NO SQL IF(cash <= 0) THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cash cannot be negative or zero!'; ELSEIF (SELECT IFNULL((SELECT cl.balance FROM cashlog cl ORDER BY cl.id DESC LIMIT 1), 0) - cash) < 0 THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Balance cannot be negative!'; ELSE INSERT INTO cashlog (type, description, cash, balance) VALUES (1, description, cash, (IFNULL((SELECT cl.balance FROM cashlog cl ORDER BY cl.id DESC LIMIT 1), 0) - cash)); END IF$$ DELIMITER ;");
+
         $helper = $this->getHelper('question');
 
         $usernameQuestion = new Question('Podaj nazwę użytkownika: ');
-        
+
         $passwordQuestion = new Question('Podaj hasło: ');
         $passwordQuestion->setHidden(true);
         $passwordQuestion->setHiddenFallback(false);
