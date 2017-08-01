@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "84c2498a48a37a6847884710e42f2a0c",
+    "content-hash": "5076047f9b8888cb1a9acbb52fc90f36",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -481,6 +481,62 @@
                 "parser"
             ],
             "time": "2014-09-09T13:34:57+00:00"
+        },
+        {
+            "name": "knplabs/console-service-provider",
+            "version": "v2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KnpLabs/ConsoleServiceProvider.git",
+                "reference": "d81dc3d91454f9af51dfce58d6abb98824e18135"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KnpLabs/ConsoleServiceProvider/zipball/d81dc3d91454f9af51dfce58d6abb98824e18135",
+                "reference": "d81dc3d91454f9af51dfce58d6abb98824e18135",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9",
+                "silex/silex": "~2.0",
+                "symfony/console": "~2.3|~3.0"
+            },
+            "require-dev": {
+                "symfony/monolog-bridge": "^3.2",
+                "symfony/phpunit-bridge": "^3.2",
+                "symfony/twig-bridge": "~2.8|^3.0",
+                "symfony/web-server-bundle": "^3.3",
+                "symfony/yaml": "^2.8|^3.0",
+                "twig/twig": "~1.27|~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Knp\\": "Knp/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "KnpLabs",
+                    "homepage": "http://knplabs.com"
+                }
+            ],
+            "description": "console service provider for Silex",
+            "homepage": "http://knplabs.com",
+            "keywords": [
+                "console",
+                "silex"
+            ],
+            "time": "2017-07-18T01:00:21+00:00"
         },
         {
             "name": "paragonie/random_compat",
