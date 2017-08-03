@@ -30,4 +30,9 @@ class User
     {
         $this->connection->executeQuery('TRUNCATE TABLE signin_failed_attempts;');
     }
+
+    public function getAvailableSigninAttempts($signinAttempts)
+    {
+        return $this->connection->fetchColumn("SELECT " . $signinAttempts . " - (SELECT COUNT(*) FROM signin_failed_attempts)");
+    }
 }

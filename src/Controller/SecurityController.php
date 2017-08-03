@@ -8,7 +8,7 @@ class SecurityController extends BaseController
 {
     public function signinAction(Request $request)
     {
-        $availableSigninAttempts = $this->app['availableSigninAttempts'];
+        $availableSigninAttempts = $this->app['UserModel']->getAvailableSigninAttempts(getenv('SIGNIN_ATTEMPTS'));
 
         if ($availableSigninAttempts > 0) {
             return $this->app->render('security/signin.twig', [
