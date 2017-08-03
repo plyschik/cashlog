@@ -4,9 +4,10 @@ namespace CashLog\Provider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use CashLog\EventListener\CashLogListener;
 use Silex\Api\EventListenerProviderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use CashLog\EventListener\SecurityListener;
+use CashLog\EventListener\ApplicationListener;
 
 class CashLogServiceProvider implements ServiceProviderInterface, EventListenerProviderInterface
 {
@@ -16,6 +17,7 @@ class CashLogServiceProvider implements ServiceProviderInterface, EventListenerP
 
     public function subscribe(Container $app, EventDispatcherInterface $dispatcher)
     {
-        $dispatcher->addSubscriber(new CashLogListener($app));
+        $dispatcher->addSubscriber(new SecurityListener($app));
+        $dispatcher->addSubscriber(new ApplicationListener($app));
     }
 }

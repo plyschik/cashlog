@@ -5,7 +5,7 @@ namespace CashLog\EventListener;
 use Silex\Application;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class CashLogListener implements EventSubscriberInterface
+class SecurityListener implements EventSubscriberInterface
 {
     protected $app;
 
