@@ -27,8 +27,8 @@ class SecurityListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'security.authentication.failure' => ['onAuthenticationFailure'],
-            'security.authentication.success' => ['onAuthenticationSuccess']
+            'security.authentication.failure' => 'onAuthenticationFailure',
+            'security.authentication.success' => 'onAuthenticationSuccess'
         ];
     }
 }
