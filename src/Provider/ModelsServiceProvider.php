@@ -4,6 +4,7 @@ namespace CashLog\Provider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use CashLog\Model\Log;
 use CashLog\Model\User;
 use CashLog\Model\Operation;
 
@@ -17,6 +18,10 @@ class ModelsServiceProvider implements ServiceProviderInterface
 
         $app['OperationModel'] = function () use ($app) {
             return new Operation($app['db']);
+        };
+
+        $app['LogModel'] = function () use ($app) {
+            return new Log($app['db']);
         };
     }
 }
