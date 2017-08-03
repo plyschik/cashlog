@@ -79,6 +79,26 @@ class CashLogSetupCommand extends Command
         ]);
         $cashlog->setPrimaryKey(['id']);
 
+        $logs = $schema->createTable('logs');
+        $logs->addColumn('id', 'smallint', [
+            'unsigned' => true,
+            'autoincrement' => true,
+        ]);
+        $logs->addColumn('datetime', 'datetime', [
+            'default' => 'CURRENT_TIMESTAMP'
+        ]);
+        $logs->addColumn('description', 'string', [
+            'length' => 64
+        ]);
+        $logs->addColumn('ip_address', 'integer', [
+            'unsigned' => true,
+            'length' => 4
+        ]);
+        $logs->addColumn('useragent', 'string', [
+            'length' => 255
+        ]);
+        $logs->setPrimaryKey(['id']);
+
         $queries = $schema->toSql($app['db']->getDatabasePlatform());
 
         foreach ($queries as $query) {

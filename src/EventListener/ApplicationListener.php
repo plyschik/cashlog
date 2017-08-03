@@ -14,8 +14,39 @@ class ApplicationListener implements EventSubscriberInterface
         $this->app = $app;
     }
 
+    public function onNewOperation()
+    {
+        $this->app['LogModel']->addLog('Dodano nowy zapis operacji.');
+    }
+
+    public function onEditedOperation()
+    {
+        $this->app['LogModel']->addLog('Dokonano edycji zapisu operacji.');
+    }
+
+    public function onRemovedOperation()
+    {
+        $this->app['LogModel']->addLog('Dokonano usunięcia zapisu operacji.');
+    }
+
+    public function onLocaleChange()
+    {
+        $this->app['LogModel']->addLog('Dokonano zmiany języka interfejsu.');
+    }
+
+    public function onPasswordChange()
+    {
+        $this->app['LogModel']->addLog('Dokonano zmiany hasła.');
+    }
+
     public static function getSubscribedEvents()
     {
-        return [];
+        return [
+            'application.newOperation'      => 'onNewOperation',
+            'application.editedOperation'   => 'onEditedOperation',
+            'application.removedOperation'  => 'onRemovedOperation',
+            'application.passwordChange'    => 'onPasswordChange',
+            'application.localeChange'      => 'onLocaleChange'
+        ];
     }
 }

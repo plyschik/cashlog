@@ -12,6 +12,8 @@ $app
     ->get('/locale/{_locale}', function (Request $request) use ($app) {
         $app['session']->set('_locale', $request->getLocale());
 
+        $app['dispatcher']->dispatch('application.localeChange');
+
         return $app->redirect($app->url('logs.index'));
     })
     ->bind('locale')
