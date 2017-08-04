@@ -20,6 +20,8 @@ class LogsController extends BaseController
 
             $this->app['OperationModel']->createOperation($data['type'], $data['description'], $data['cash']);
 
+            $this->app['dispatcher']->dispatch('application.newOperation');
+
             $this->app['session']->getFlashBag()->add('success', 'Operacja zakończyła się sukcesem!');
 
             return $this->app->redirect($this->app->url('logs.index'));
@@ -54,6 +56,8 @@ class LogsController extends BaseController
 
             $this->app['OperationModel']->updateOperationDescription($id, $data['description']);
 
+            $this->app['dispatcher']->dispatch('application.editedOperation');
+
             $this->app['session']->getFlashBag()->add('success', 'Zapis operacji został poprawnie zaktualizowany!');
 
             return $this->app->redirect($this->app->url('logs.index'));
@@ -70,6 +74,8 @@ class LogsController extends BaseController
 
         if ($form->isValid()) {
             $this->app['OperationModel']->removeOperation();
+
+            $this->app['dispatcher']->dispatch('application.removedOperation');
 
             $this->app['session']->getFlashBag()->add('success', 'Zapis operacji został poprawnie usuniętusunięty.');
 

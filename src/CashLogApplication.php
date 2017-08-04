@@ -6,6 +6,7 @@ use Silex\Application;
 
 class CashLogApplication extends Application
 {
+    use LoggerTrait;
     use Application\TwigTrait;
     use Application\SecurityTrait;
     use Application\UrlGeneratorTrait;

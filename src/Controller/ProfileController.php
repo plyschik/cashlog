@@ -20,6 +20,8 @@ class ProfileController extends BaseController
                 'username' => $this->app['user']->getUsername()
             ]);
 
+            $this->app['dispatcher']->dispatch('application.passwordChange');
+
             return $this->app->redirect($this->app->url('signout'));
         }
 
